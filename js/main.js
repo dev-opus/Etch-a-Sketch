@@ -1,23 +1,18 @@
 const gridContainer = document.querySelector('.container');
 const blackPen = document.querySelector('.black');
+const randomPen = document.querySelector('.random');
 const eraser = document.querySelector('.eraser');
 const clear = document.querySelector('.clear');
-const randomPen = document.querySelector('.random');
+const reset = document.querySelector('.reset');
 
-
-let grid = 2500;
-
+let grid = 256;
 for (let i = 0; i < grid; i++) {
 	let tempDiv = document.createElement('div');
 	tempDiv.setAttribute('class', 'item');
-
-	tempDiv.innerText = ''; //without adding text to the divs, i dont get any cells.
-
 	gridContainer.appendChild(tempDiv);
 }
 
 let cells = document.querySelectorAll('.item');
-
 function blackInk() {
 	cells.forEach((cell) => {
 		cell.addEventListener('mouseenter', (event) => {
@@ -25,7 +20,6 @@ function blackInk() {
 		});
 	});
 }
-
 
 function eraseCell() {
 	cells.forEach((cell) => {
@@ -41,22 +35,50 @@ function clearGrid() {
 	});
 }
 
+function resetGrid() {
+	let columns = prompt('Enter a new size for the grid between 1 and 100');
 
+	if (columns === null || columns === '' || isNaN(columns) === true) {
+		console.log('yes');
+		return;
+	} else if (+columns < 1 || +columns > 100) {
+		alert(`Invalid grid size ${columns * columns}\nEnter a number between 1 and 100 inclusive.`);
+		return;
+	} else {
+		console.log('success!!');
+		gridContainer.innerHTML = '';
 
+		grid = +columns * +columns;
+
+		for (let i = 0; i < grid; i++) {
+			let tempDiv = document.createElement('div');
+			tempDiv.setAttribute('class', 'item');
+			gridContainer.appendChild(tempDiv);
+		}
+
+		cells = document.querySelectorAll('.item');
+		gridContainer.style.cssText = `grid-template-columns: repeat(${columns}, minmax(2px, 1fr))`;
+	}
+}
+
+/* 
+this section marks the end of the functions (callbacks) declartion 
+and the beginning of the addition of the event listeners
+*/
 
 blackPen.addEventListener('click', () => {
 	blackInk();
 });
 
-
 eraser.addEventListener('click', () => {
 	eraseCell();
 });
 
-
 clear.addEventListener('click', () => {
 	clearGrid();
+	eraseCell();
 });
 
-
-
+reset.addEventListener('click', () => {
+	resetGrid();
+});
