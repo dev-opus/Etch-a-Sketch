@@ -13,10 +13,21 @@ for (let i = 0; i < grid; i++) {
 }
 
 let cells = document.querySelectorAll('.item');
+
 function blackInk() {
 	cells.forEach((cell) => {
 		cell.addEventListener('mouseenter', (event) => {
 			cell.style.backgroundColor = 'black';
+		});
+	});
+}
+
+function randomInk() {
+	let randomValue = Math.floor(Math.random() * 255) * 1;
+
+	cells.forEach((cell) => {
+		cell.addEventListener('mouseenter', () => {
+			cell.style.backgroundColor = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
 		});
 	});
 }
@@ -42,7 +53,11 @@ function resetGrid() {
 		console.log('yes');
 		return;
 	} else if (+columns < 1 || +columns > 100) {
-		alert(`Invalid grid size ${columns * columns}\nEnter a number between 1 and 100 inclusive.`);
+		alert(
+			`Invalid grid size ${
+				columns * columns
+			}\nEnter a number between 1 and 100 inclusive.`,
+		);
 		return;
 	} else {
 		console.log('success!!');
@@ -70,6 +85,9 @@ blackPen.addEventListener('click', () => {
 	blackInk();
 });
 
+randomPen.addEventListener('click', () => {
+	randomInk();
+});
 eraser.addEventListener('click', () => {
 	eraseCell();
 });
